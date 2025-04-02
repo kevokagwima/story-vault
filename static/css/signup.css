@@ -1,0 +1,126 @@
+body {
+  background-color: var(--purple);
+}
+
+.account,
+footer,
+.footer-info {
+  display: none;
+}
+
+.form {
+  padding: 2rem;
+}
+
+.form > h1 {
+  color: var(--main-bgcolor);
+  font-size: 6ch;
+  text-align: center;
+}
+
+form {
+  padding-block: 2rem;
+  max-width: 40%;
+  margin: 2rem auto 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.input {
+  display: grid;
+  gap: 0.6rem;
+}
+
+label {
+  color: whitesmoke;
+}
+
+input {
+  background-color: var(--main-bgcolor);
+  color: var(--dark);
+}
+
+input::placeholder {
+  color: grey;
+}
+
+#input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--main-bgcolor);
+  border-radius: var(--radius);
+  padding-right: 1em;
+}
+
+#input i {
+  cursor: pointer;
+  color: var(--special);
+}
+
+.extend {
+  grid-column: 1/3;
+}
+
+#info {
+  margin-top: 1rem;
+  display: grid;
+  gap: 1rem;
+  text-align: center;
+  grid-column: 1/3;
+  color: var(--main-bgcolor);
+}
+
+#info a {
+  color: var(--special);
+  font-weight: 600;
+}
+
+form button {
+  background-color: var(--special);
+}
+
+@media screen and (max-width: 1400px) {
+  form {
+    max-width: 55%;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  form {
+    max-width: 65%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  form {
+    max-width: 75%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  form {
+    max-width: 95%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .form {
+    padding-inline: 1rem;
+  }
+
+  form {
+    grid-template-columns: 1fr;
+  }
+
+  .btn,
+  .extend,
+  #info {
+    grid-column: 1/2;
+  }
+
+  .form h4 {
+    font-size: 4.5ch;
+  }
+}

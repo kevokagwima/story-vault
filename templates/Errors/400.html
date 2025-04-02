@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/errors.css') }}">
+{% endblock %}
+
+{% block title %}
+Bad Request (400)
+{% endblock %}
+
+{% block body %}
+<main>
+  <h1>Oops. Bad Request (400)</h1>
+  <p>This is not a problem on your end but on the server</p>
+</main>
+{% endblock %}

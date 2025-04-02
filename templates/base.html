@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% block head %}
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  <!-- <link rel="shortcut icon" href="./Images/favicon.ico"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <title>Story Vault | {% block title %}{% endblock %}</title>
+</head>
+{% endblock %}
+
+<body>
+  <header id="header">
+    <div class="logo">
+      <a href="{{ url_for('users.home') }}">
+        <img id="logo" src="{{ url_for('static', filename='Images/logo.png') }}" alt="">
+      </a>
+    </div>
+    <div class="links">
+      <a href="{{ url_for('users.home') }}" id="link">Home</a>
+    </div>
+    <div class="account">
+      {% if current_user.is_authenticated %}
+      <div class="profile-box">
+        <div class="profile-info">
+          <p>Welcome, <b>{{ current_user.email }}</b></p>
+        </div>
+        <a href="{{ url_for('auth.profile', user_id=current_user.unique_id) }}">
+          <div class="profile-img">
+            {% if current_user.profile %}
+            <img
+              src="https://{{ current_user.user_profile.bucket }}.s3.{{ current_user.user_profile.region }}.amazonaws.com/{{ current_user.user_profile.name }}"
+              alt="">
+            {% else %}
+            <img src="{{ url_for('static', filename='Images/profile.png') }}" alt="">
+            {% endif %}
+          </div>
+        </a>
+      </div>
+      {% else %}
+      <a id="link" href="{{ url_for('auth.signin') }}">Login</a>
+      <a href="{{ url_for('auth.signup') }}">
+        <button id="signup">Create Account</button>
+      </a>
+      {% endif %}
+    </div>
+    <div class="burger">
+      <div class="div"></div>
+      <div class="div"></div>
+      <div class="div"></div>
+    </div>
+  </header>
+  <div class="side-navigation">
+    <span id="close">X</span>
+    <div class="side-account">
+      {% if current_user.is_authenticated %}
+      <p>Welcome,<b>{{ current_user.email }}</b></p>
+      {% else %}
+      <a id="link" href="{{ url_for('auth.signin') }}">Login</a>
+      <a href="{{ url_for('auth.signup') }}">
+        <button id="signup">Create Account</button>
+      </a>
+      {% endif %}
+    </div>
+    <div class="side-links">
+      <a href="{{ url_for('users.home') }}" id="link">Home</a>
+    </div>
+  </div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="tops">
+    {% for category, message in messages %}
+    <div class="alert alert-{{category}}">
+      {{ message }}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+  {% block body %}{% endblock %}
+
+  <section class="footer-info">
+    <div class="footer-logo">
+      <img src="../static/Images/logo.png" alt="">
+    </div>
+    <hr>
+    <div class="footer-box">
+      <div class="footer-links">
+        <h4>Useful Links</h4>
+        <a href="{{ url_for('users.home') }}" id="link">
+          <i class="fa fa-angle-right"></i>
+          Home
+        </a>
+      </div>
+      <div class="footer-links">
+        <h4>Support</h4>
+        <a href="#" id="link">
+          <i class="fa fa-envelope-o"></i>
+          info@2hustleboostinitiative.com
+        </a>
+        <a href="#" id="link">
+          <i class="fa fa-phone"></i>
+          +254764120325
+        </a>
+        <a href="#" id="link">
+          <i class="fa fa-angle-right"></i>
+          contact
+        </a>
+      </div>
+      <div class="news-letter">
+        <h4>Join Our Newsletter</h4>
+        <form action="#">
+          <label for="">Want To Notified? Subscribe Now</label>
+          <input required type="text" placeholder="Enter your email address">
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-text">
+      <p>© Copyright <b>COM-CREV PORTAL.</b> All Rights Reserved</p>
+    </div>
+    <div class="footer-socials">
+      <i class="fa fa-twitter-square"></i>
+      <i class="fa fa-facebook-square"></i>
+      <i class="fa fa-instagram"></i>
+      <i class="fa fa-linkedin-square"></i>
+      <i class="fa fa-whatsapp"></i>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+  {% block script %}{% endblock %}
+
+</body>
+
+</html>

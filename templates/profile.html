@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/signin.css') }}">
+{% endblock %}
+
+{% block title %}
+Update Profile
+{% endblock %}
+
+{% block body %}
+<div class="form">
+  <h1>Update Profile</h1>
+  <form method="post" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    {% if user.id_number %}
+    <div class="input">
+      {{ form.id_number.label }}
+      {{ form.id_number(placeholder="ID Number", class="name", value=user.id_number) }}
+    </div>
+    {% else %}
+    <div class="input">
+      {{ form.id_number.label }}
+      {{ form.id_number(placeholder="ID Number", class="name") }}
+    </div>
+    {% endif %}
+    <div class="input">
+      {{ form.profile_pic.label }}
+      {{ form.profile_pic(class="name") }}
+    </div>
+    <button class="btn" type="submit">
+      <span class="button--text">Update</span>
+    </button>
+  </form>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+{% endblock %}

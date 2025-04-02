@@ -1,0 +1,28 @@
+main {
+  min-height: calc(100svh - 10.8svh);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem;
+  background-color: var(--special);
+}
+
+main > h1 {
+  color: whitesmoke;
+  font-size: 3.5ch;
+  text-align: center;
+  max-width: 70vw;
+}
+
+main > p {
+  font-size: 2ch;
+  text-align: center;
+}
+
+@media screen and (max-width: 500px) {
+  main > h1 {
+    font-size: 3ch;
+  }
+}

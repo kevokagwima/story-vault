@@ -13,22 +13,18 @@ def drop_tables():
   db.drop_all()
 
 def add_role():
-  new_role = Role(
-    name = "Admin"
-  )
-  db.session.add(new_role)
-  db.session.commit()
-  print(f"Added role {new_role.name}")
-  new_role = Role(
-    name = "User"
-  )
-  db.session.add(new_role)
-  db.session.commit()
-  print(f"Added role {new_role.name}")
+  roles = ["Admin", "User"]
+  for role in roles:
+    new_role = Role(
+      name=role
+    )
+    db.session.add(new_role)
+    db.session.commit()
+    print(f"Added role {new_role.name}")
 
 if __name__ == '__main__':
   with app.app_context():
-    # drop_tables()
+    drop_tables()
     add_tables()
     add_role()
   

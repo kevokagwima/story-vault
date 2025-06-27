@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block title %}
+| Home
+{% endblock %}
+
+{% block body %}
+<section class="feed">
+  <div class="feed-header">
+    <h2>Recent Shares</h2>
+  </div>
+  <div class="feed-content">
+    <div class="posts">
+      {% for post in posts|sort(attribute="created_at", reverse=True) %}
+      <div class="card">
+        <div class="post-header">
+          <img id="post-img" src="{{ url_for('static', filename='Images/profile.png') }}" alt="">
+          <div class="post-user">
+            <h4>{{ post.user_post.username }}</h4>
+            <small>{{ post.created_at.strftime("%b %d, %Y") }}</small>
+          </div>
+        </div>
+        <div class="post-content">
+          <div class="reading-status">
+            {% if post.status == "finished" %}
+            <span class="status-badge completed">Finished reading</span>
+            {% elif post.status == "current" %}
+            <span class="status-badge ongoing">Currently reading</span>
+            {% elif post.status == "start" %}
+            <span class="status-badge pending">Next reading</span>
+            {% endif %}
+            <p><b>{{ post.book_title }}</b> by <b>{{ post.book_author }}</b></p>
+          </div>
+          <p style="margin-top: 1rem;">{{ post.content }}</p>
+          <!-- <div class="book-cover">
+            <img src="https://via.placeholder.com/150x200" alt="Dune" class="book-cover-img">
+          </div> -->
+        </div>
+        <div class="post-actions">
+          <button class="btn-outline">Like</button>
+          <button class="btn-outline">Comment</button>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="feed-side-bar">
+      <div class="feed-side-bar-header">
+        <h4>Suggested Readers</h4>
+      </div>
+      <div class="feed-side-bar-content">
+        {% if readers %}
+        {% for reader in readers %}
+        <div class="follow-box">
+          <div class="follow-user-header">
+            <img id="post-img" src="{{ url_for('static', filename='Images/profile.png') }}" alt="">
+            <div class="post-user">
+              <h4>{{ reader.username }}</h4>
+            </div>
+          </div>
+          <a href="#">Follow</a>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p class="else">No suggested readers</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

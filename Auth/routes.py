@@ -23,66 +23,58 @@ region = os.environ.get("region")
 
 @auth.route("/signup", methods=["POST", "GET"])
 def signup():
-  try:
-    form = RegistrationForm()
-    if form.validate_on_submit():
+  form = RegistrationForm()
+  if form.validate_on_submit():
+    try:
       new_user = Users(
-        unique_id = random.randint(100000,999999),
-        first_name = form.first_name.data,
-        last_name = form.last_name.data,
+        username = form.username.data,
         email = form.email_address.data,
         phone = form.phone_number.data,
-        role = Role.query.filter_by(name="User").first().id
+        role = Role.query.filter_by(name="User").first().id,
+        passwords = form.password.data
       )
       db.session.add(new_user)
-      generated_password = generate_password()
-      new_user.password = bcrypt.generate_password_hash(generated_password).decode("utf-8")
       db.session.commit()
       flash("Registration successfull", category="success")
       return redirect(url_for('auth.signin'))
     
+    except Exception as e:
+      flash(f"{str(e)}", category="danger")
+      return redirect(url_for('auth.signup'))
+
     if form.errors != {}:
       for err_msg in form.errors.values():
         flash(f"{err_msg}", category="danger")
         return redirect(url_for('auth.signup'))
 
-    return render_template("signup.html", form=form)
-
-  except Exception as e:
-    flash(f"{repr(e)}", category="danger")
-    return redirect(url_for('auth.signup'))
-
-def generate_password():
-  characters = ["1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","!","@","#","$","%","^","&","*"]
-  generated_password = ''.join(random.choice(characters) for _ in range(10))
-  print(generated_password)
-  return generated_password
+  return render_template("Auth/signup.html", form=form)
 
 @auth.route("/signin", methods=["POST", "GET"])
 def signin():
   form = LoginForm()
   if form.validate_on_submit():
-    user = Users.query.filter_by(email=form.email_address.data).first()
-    if user and bcrypt.check_password_hash(user.password, form.password.data):
-      login_user(user, remember=True)
-      flash("Login successfull", category="success")
-      next = request.args.get("next")
-      if user.profile:
-        return redirect(next or url_for("users.home"))
+    try:
+      user = Users.query.filter_by(email=form.email_address.data).first()
+      if user and bcrypt.check_password_hash(user.password, form.password.data):
+        login_user(user, remember=True)
+        flash("Login successfull", "success")
+        next = request.args.get("next")
+        return redirect(next or url_for("books.home"))
+      elif user is None:
+        flash("No user with that email", "danger")
+        return redirect(url_for('auth.signin'))
       else:
-        return redirect(next or url_for("auth.profile", user_id=user.unique_id))
-    elif user is None:
-      flash("No user with that email", category="danger")
-      return redirect(url_for('auth.signin'))
-    else:
-      flash("Invalid credentials", category="danger")
+        flash("Invalid credentials", "danger")
+        return redirect(url_for('auth.signin'))
+    except Exception as e:
+      flash(f"{str(e)}", "danger")
       return redirect(url_for('auth.signin'))
 
   if form.errors != {}:
     for err_msg in form.errors.values():
       flash(f"{err_msg}", category="danger")
 
-  return render_template("signin.html", form=form)
+  return render_template("Auth/signin.html", form=form)
 
 @auth.route("/reset-password", methods=["POST", "GET"])
 def reset_password():

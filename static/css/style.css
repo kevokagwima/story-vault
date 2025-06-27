@@ -1,59 +1,73 @@
-.intro {
-  text-align: center;
-  padding: 50px 20px;
-  background-color: #f5f5f5;
+.feed,
+.posts,
+.card {
+  display: grid;
+  gap: 0.5rem;
 }
 
-.cover-image {
-  max-width: 100%;
-  height: auto;
+.feed-content {
+  display: flex;
+  align-items: start;
+  gap: 1rem;
 }
 
-.description {
-  font-size: 1.2em;
-  color: #666;
+.posts {
+  flex-grow: 1;
 }
 
-.features {
-  padding: 40px 20px;
-  text-align: center;
+.card {
+  background-color: var(--primary-color);
+  border-radius: var(--radius-s);
+  padding: 1rem;
+  gap: 1rem;
+  box-shadow: var(--shadow);
 }
 
-.features h2 {
-  margin-bottom: 30px;
+.post-header,
+.follow-user-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--bg-light);
+  padding-bottom: 0.5rem;
 }
 
-.feature {
-  margin: 20px 0;
+#post-img {
+  max-height: 2.5rem;
 }
 
-.feature-image {
-  max-width: 100%;
-  height: auto;
-  border-radius: 10px;
+.post-user {
+  display: grid;
+  gap: 0;
 }
 
-.about {
-  padding: 40px 20px;
-  background-color: #f9f9f9;
+.feed-side-bar {
+  background-color: var(--primary-color);
+  padding: 1rem;
+  border-radius: var(--radius-s);
+  min-width: 20rem;
+  display: grid;
+  gap: 1rem;
+  box-shadow: var(--shadow);
 }
 
-.about h2 {
-  margin-bottom: 20px;
+.feed-side-bar-header h4 {
+  border-bottom: 1px solid var(--bg-light);
+  padding-bottom: 0.5rem;
 }
 
-.team-members {
-  list-style: none;
-  padding: 0;
+.feed-side-bar-content {
+  display: grid;
+  gap: 1rem;
 }
 
-.team-members li {
-  margin: 10px 0;
+.feed-side-bar-content .follow-user-header {
+  padding-bottom: 0;
+  border-bottom: 0;
 }
 
-footer {
-  text-align: center;
-  padding: 20px;
-  background-color: #4a90e2;
-  color: white;
+.follow-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

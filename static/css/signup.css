@@ -1,19 +1,15 @@
-body {
-  background-color: var(--purple);
-}
-
 .account,
-footer,
-.footer-info {
+footer {
   display: none;
 }
 
-.form {
+.form,
+form {
   padding: 2rem;
 }
 
 .form > h1 {
-  color: var(--main-bgcolor);
+  color: var(--text-dark);
   font-size: 6ch;
   text-align: center;
 }
@@ -24,43 +20,53 @@ form {
   margin: 2rem auto 0;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  gap: 1rem;
+  background-color: var(--primary-color);
+  border-radius: var(--radius-s);
 }
 
 .input {
   display: grid;
-  gap: 0.6rem;
+  gap: 0.4rem;
 }
 
 label {
-  color: whitesmoke;
+  color: var(--text-light);
 }
 
 input {
-  background-color: var(--main-bgcolor);
-  color: var(--dark);
+  color: var(--text-dark);
 }
 
 input::placeholder {
-  color: grey;
+  color: var(--text-light);
 }
 
 #input {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--main-bgcolor);
-  border-radius: var(--radius);
+  background-color: var(--bg-light);
+  border-radius: var(--radius-s);
   padding-right: 1em;
+}
+
+#input:focus {
+  background-color: var(--faded-accent-color);
 }
 
 #input i {
   cursor: pointer;
-  color: var(--special);
+  color: var(--accent-color);
 }
 
-.extend {
-  grid-column: 1/3;
+.extend,
+.btn {
+  grid-column: 1/-1;
+}
+
+form .btn {
+  margin-top: 1rem;
 }
 
 #info {
@@ -68,17 +74,11 @@ input::placeholder {
   display: grid;
   gap: 1rem;
   text-align: center;
-  grid-column: 1/3;
-  color: var(--main-bgcolor);
+  color: var(--text-dark);
 }
 
 #info a {
-  color: var(--special);
   font-weight: 600;
-}
-
-form button {
-  background-color: var(--special);
 }
 
 @media screen and (max-width: 1400px) {
@@ -112,12 +112,6 @@ form button {
 
   form {
     grid-template-columns: 1fr;
-  }
-
-  .btn,
-  .extend,
-  #info {
-    grid-column: 1/2;
   }
 
   .form h4 {

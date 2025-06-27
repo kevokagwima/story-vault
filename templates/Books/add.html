@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/add-book.css') }}">
+{% endblock %}
+
+{% block title %}
+Add Book
+{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+  <h2>Add a New Book</h2>
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+      {{ form.title.label(class="form-label") }}
+      {{ form.title(class="form-control", placeholder="Book Title") }}
+      {% for error in form.title.errors %}
+      <div class="text-danger">{{ error }}</div>
+      {% endfor %}
+    </div>
+    <div class="mb-3">
+      {{ form.author.label(class="form-label") }}
+      {{ form.author(class="form-control", placeholder="Author") }}
+      {% for error in form.author.errors %}
+      <div class="text-danger">{{ error }}</div>
+      {% endfor %}
+    </div>
+    <div class="mb-3">
+      {{ form.cover_url.label(class="form-label") }}
+      {{ form.cover_url(class="form-control", placeholder="Cover Image URL") }}
+    </div>
+    <div class="mb-3">
+      {{ form.description.label(class="form-label") }}
+      {{ form.description(class="form-control", placeholder="Description") }}
+    </div>
+    <div class="mb-3">
+      {{ form.isbn.label(class="form-label") }}
+      {{ form.isbn(class="form-control", placeholder="ISBN") }}
+    </div>
+    <button type="submit" class="btn btn-primary">Add Book</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/create-post.css') }}">
+{% endblock %}
+
+{% block title %}
+| Share a Book
+{% endblock %}
+
+{% block body %}
+<section class="create-post">
+  <h1>Share a Book</h1>
+  <form class="post-form mt-20" method="post">
+    {{ form.csrf_token }}
+    <div class="form-group">
+      {{ form.status.label }}
+      {{ form.status }}
+    </div>
+
+    <div class="form-group">
+      {{ form.book_title.label }}
+      {{ form.book_title(placeholder="Enter Book Title") }}
+    </div>
+
+    <div class="form-group">
+      {{ form.book_author.label }}
+      {{ form.book_author(placeholder="Enter Book Author") }}
+    </div>
+
+    <div class="form-group">
+      {{ form.book_cover.label }}
+      {{ form.book_cover }}
+    </div>
+
+    <div class="form-group">
+      {{ form.comments.label }}
+      {{ form.comments(placeholder="Enter caption...") }}
+    </div>
+
+    <div class="form-actions mt-20">
+      <button type="submit" class="btn">Share Book</button>
+      <button type="button" class="btn-outline">Cancel</button>
+    </div>
+  </form>
+</section>
+{% endblock %}

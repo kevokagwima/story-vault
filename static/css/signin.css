@@ -3,15 +3,7 @@ form {
   max-width: 30%;
 }
 
-input {
-  min-width: 25vw;
-}
-
 .btn {
-  grid-column: 1/2;
-}
-
-#info {
   grid-column: 1/2;
 }
 

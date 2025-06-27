@@ -1,0 +1,30 @@
+.post-form {
+  background-color: var(--primary-color);
+  padding: 2rem;
+  border-radius: var(--radius-s);
+  display: grid;
+  gap: 1rem;
+}
+
+.form-group {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-outline {
+  padding: 10px 20px;
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-outline:hover {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}

@@ -2,6 +2,7 @@
 :root {
   --primary-color: #ffffff;
   --accent-color: #e56a1e;
+  --accent-2-color: #e8ac876f;
   --faded-accent-color: #e56a1e1e;
   --text-dark: #333333;
   --text-light: #777777;
@@ -67,6 +68,7 @@ textarea:focus {
   transition: all 0.3s ease;
   border: none;
   cursor: pointer;
+  box-shadow: var(--shadow);
 }
 
 .btn:hover {

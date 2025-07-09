@@ -8,4 +8,7 @@ class PostForm(FlaskForm):
   book_title = StringField(label="Book Title", validators=[DataRequired(message="Book title field is required")])
   book_author = StringField(label="Book Author", validators=[DataRequired(message="Book author field is required")])
   book_cover = FileField(label="Book Cover (Optional)", validators=[Optional()])
-  comments = TextAreaField(label="Caption", validators=[DataRequired(message="Book author field is required")])
+  comments = TextAreaField(label="Caption", validators=[DataRequired(message="Comment field is required")])
+
+class CommentForm(FlaskForm):
+  comment = TextAreaField(label="Comment", validators=[DataRequired(message="Comment is required")])

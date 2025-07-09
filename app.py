@@ -18,7 +18,8 @@ app.register_blueprint(auth)
 app.register_blueprint(errors)
 login_manager = LoginManager()
 login_manager.blueprint_login_views = {
-  'posts': '/auth/signin'
+  'posts': '/auth/signin',
+  'books': '/auth/signin'
 }
 login_manager.login_message = "Please login to access this page"
 login_manager.login_message_category = "danger"

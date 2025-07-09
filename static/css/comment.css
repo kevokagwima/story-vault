@@ -1,0 +1,92 @@
+#back {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: bold;
+  color: var(--text-dark);
+  width: max-content;
+}
+
+#back i {
+  font-size: 0.8rem;
+}
+
+.post-box {
+  display: grid;
+  gap: 1rem;
+}
+
+.post {
+  display: flex;
+  gap: 2rem;
+}
+
+.card,
+.comment-box {
+  height: max-content;
+  width: 100%;
+}
+
+.comment-box {
+  display: grid;
+  gap: 2rem;
+  position: relative;
+  max-width: 30rem;
+}
+
+.comments-section {
+  background-color: var(--primary-color);
+  border-radius: var(--radius-s);
+  padding: 1rem;
+  display: grid;
+  gap: 0.8rem;
+  box-shadow: var(--shadow);
+}
+
+.comments-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding-right: 0.4rem;
+  max-height: 30rem;
+  overflow-y: scroll;
+}
+
+.comment-info {
+  border-radius: var(--radius-s);
+}
+
+.comment-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.comment-header span {
+  font-size: 0.85rem;
+}
+
+.comment-header p a {
+  color: var(--text-dark);
+  font-weight: bold;
+}
+
+form {
+  display: grid;
+  position: sticky;
+  bottom: 1rem;
+  z-index: 1;
+}
+
+.input textarea {
+  width: 100%;
+  resize: vertical;
+  background-color: var(--primary-color);
+  box-shadow: var(--shadow);
+}
+
+form button {
+  margin-top: 0.5rem;
+}

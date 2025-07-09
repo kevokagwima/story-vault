@@ -8,13 +8,14 @@ books = Blueprint("books", __name__)
 @books.route("/")
 @books.route("/home")
 @books.route("/books")
+@login_required
 def home():
   books = Book.query.all()
 
   context = {
     "books": books,
     "posts": Post.query.all(),
-    "readers": Users.query.all(),
+    "readers": Users.query.filter(Users.unique_id != current_user.unique_id).all(),
   }
 
   return render_template("Books/index.html", **context)

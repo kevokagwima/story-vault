@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/comment.css') }}">
+{% endblock %}
+
+{% block title %}
+| Comment
+{% endblock %}
+
+{% block body %}
+<div class="post-box">
+  <a id="back" href="{{ url_for('books.home') }}">
+    <i class="fas fa-chevron-left"></i>
+    <p>Back</p>
+  </a>
+  <div class="post">
+    <div class="card">
+      <div class="post-header">
+        <img id="post-img" src="{{ url_for('static', filename='Images/profile.png') }}" alt="">
+        <div class="post-user">
+          <h4>{{ post.user_post.username }}</h4>
+          <small>{{ post.created_at.strftime("%b %d, %Y") }}</small>
+        </div>
+      </div>
+      <div class="post-content">
+        <div class="reading-status">
+          {% if post.status == "finished" %}
+          <span class="status-badge completed">Finished reading</span>
+          {% elif post.status == "current" %}
+          <span class="status-badge ongoing">Currently reading</span>
+          {% elif post.status == "start" %}
+          <span class="status-badge pending">Next reading</span>
+          {% endif %}
+          <p><b>{{ post.book_title }}</b> by <b>{{ post.book_author }}</b></p>
+        </div>
+        <p style="margin-top: 1rem;">{{ post.content }}</p>
+        <!-- <div class="book-cover">
+              <img src="https://via.placeholder.com/150x200" alt="Dune" class="book-cover-img">
+            </div> -->
+      </div>
+      <div class="post-actions">
+        <button class="btn-outline">
+          <a href="{{ url_for('posts.like_post', post_id=post.unique_id) }}">
+            <p>Likes</p>
+          </a>
+          <span class="like-count post-count">{{ post.likes|count }}</span>
+        </button>
+        <button class="btn-outline">
+          <a href="{{ url_for('posts.comment_post', post_id=post.unique_id) }}">
+            <p>Comments</p>
+          </a>
+          <span class="comment-count post-count">{{ post.comments|count }}</span>
+        </button>
+      </div>
+    </div>
+    <div class="comment-box">
+      <div class="comments-section">
+        <div class="comment-section-header">
+          <h4>All Comments ({{ post.comments|count }})</h4>
+        </div>
+        <div class="comment-section-content">
+          {% if post.comments %}
+          <div class="comments-box">
+            {% for comment in post.comments|sort(attribute="created_at", reverse=true) %}
+            <div class="comment-info">
+              <div class="comment-header
+              ">
+                <p>
+                  <a href="#">
+                    {% if current_user.id == comment.user_comment.id %}
+                    You
+                    {% else %}
+                    {{ comment.user_comment.username }}
+                    {% endif %}
+                  </a>
+                </p>
+                <span>{{ comment.created_at.strftime("%B %d, %I:%M %p") }}</span>
+              </div>
+              <div class="comment-body">
+                <p id="comment-text">{{ comment.content }}</p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <p class="else">No Comments</p>
+          {% endif %}
+        </div>
+      </div>
+      <form method="post">
+        {{ form.csrf_token }}
+        <div class="input">
+          {{ form.comment(placeholder="Write your comment ...") }}
+        </div>
+        <button class="btn" type="submit">Post</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

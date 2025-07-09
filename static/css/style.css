@@ -41,6 +41,37 @@
   gap: 0;
 }
 
+.post-actions-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.post-actions,
+.post-data {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.post-actions button {
+  border: none;
+  background-color: var(--accent-2-color);
+  border-radius: var(--radius-s);
+  padding: 0.3rem 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.post-actions button p {
+  font-weight: bold;
+}
+
+.post-actions button a {
+  color: var(--text-dark);
+}
+
 .feed-side-bar {
   background-color: var(--primary-color);
   padding: 1rem;

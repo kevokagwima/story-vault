@@ -72,7 +72,13 @@ class Post(BaseModel, db.Model):
   book_title = db.Column(db.String(200))
   book_author = db.Column(db.String(200))
   content = db.Column(db.Text, nullable=False)
-  comments = db.relationship("Comment", backref="post", lazy=True)
+  likes = db.relationship("Likes", backref="post_likes", lazy=True)
+  comments = db.relationship("Comment", backref="post_comments", lazy=True)
+
+class Likes(BaseModel, db.Model):
+  __tablename__ = "likes"
+  user_id = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False)
+  post_id = db.Column(db.Integer, db.ForeignKey('Posts.id'), nullable=False)
 
 class Comment(BaseModel, db.Model):
   __tablename__ = "Comments"

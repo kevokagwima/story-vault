@@ -1,21 +1,20 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
-from models import db, Book, Post, Users
+from models import db, Book, Post, Users, Follow
 from .form import BookForm
 
 books = Blueprint("books", __name__)
 
 @books.route("/")
 @books.route("/home")
-@books.route("/books")
 @login_required
 def home():
   books = Book.query.all()
 
   context = {
-    "books": books,
     "posts": Post.query.all(),
     "readers": Users.query.filter(Users.unique_id != current_user.unique_id).all(),
+    "followers": Follow.query.filter_by(follower_id=current_user.id).all()
   }
 
   return render_template("Books/index.html", **context)

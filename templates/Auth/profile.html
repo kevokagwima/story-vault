@@ -3,7 +3,7 @@
 {% block head %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/signin.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
 {% endblock %}
 
 {% block title %}
@@ -11,32 +11,99 @@ Update Profile
 {% endblock %}
 
 {% block body %}
-<div class="form">
-  <h1>Update Profile</h1>
-  <form method="post" enctype="multipart/form-data">
-    {{ form.csrf_token }}
-    {% if user.id_number %}
-    <div class="input">
-      {{ form.id_number.label }}
-      {{ form.id_number(placeholder="ID Number", class="name", value=user.id_number) }}
+<div class="profile-container">
+  <!-- Profile Header Section -->
+  <section class="profile-header">
+    <div class="profile-banner"></div>
+    <div class="profile-info">
+      <div class="profile-picture-container">
+        <img class="profile-picture" src="{{ url_for('static', filename='Images/profile.png') }}" alt="Profile Picture">
+        <button class="edit-picture-btn">
+          <i class="fas fa-camera"></i>
+        </button>
+      </div>
+      <div class="profile-details">
+        <h1 class="username">@{{ user.username }}</h1>
+        <p class="bio">Book enthusiast | Sci-fi lover | Coffee addict</p>
+        <div class="stats">
+          <div class="stat">
+            <span class="count">{{ user.posts|count }}</span>
+            <span class="label">Posts</span>
+          </div>
+          <div class="stat">
+            <span class="count">{{ followers|count }}</span>
+            <span class="label">Followers</span>
+          </div>
+          <div class="stat">
+            <span class="count">{{ following|count }}</span>
+            <span class="label">Following</span>
+          </div>
+        </div>
+      </div>
     </div>
-    {% else %}
-    <div class="input">
-      {{ form.id_number.label }}
-      {{ form.id_number(placeholder="ID Number", class="name") }}
+  </section>
+
+  <!-- Navigation Tabs -->
+  <nav class="profile-tabs">
+    <button class="tab active" data-tab="posts">My Posts</button>
+    <button class="tab" data-tab="update">Update Profile</button>
+  </nav>
+
+  <!-- Posts Section -->
+  <section id="posts" class="tab-content active">
+    <div class="posts-grid">
+      {% for post in user.posts|sort(attribute="created_at", reverse=True) %}
+      <div class="post-card">
+        <div class="post-header">
+          <span class="post-date">{{ post.created_at.strftime("%b %d, %Y at %I:%M %p") }}</span>
+          <div class="post-actions">
+            <a href="#">
+              <button class="delete-post"><i class="fas fa-trash"></i></button>
+            </a>
+          </div>
+        </div>
+        <div class="post-content">
+          <h3 class="book-title">{{ post.book_title }}</h3>
+          <p class="book-author">{{ post.book_author }}</p>
+          <p class="post-text">{{ post.content }}</p>
+        </div>
+        <div class="post-footer">
+          <span class="likes">{{ post.like|count }} likes</span>
+          <a href="{{ url_for('posts.comment_post', post_id=post.unique_id) }}">
+            <span class="comments">{{ post.comments|count }} comments</span>
+          </a>
+        </div>
+      </div>
+      {% endfor %}
     </div>
-    {% endif %}
-    <div class="input">
-      {{ form.profile_pic.label }}
-      {{ form.profile_pic(class="name") }}
-    </div>
-    <button class="btn" type="submit">
-      <span class="button--text">Update</span>
-    </button>
-  </form>
+  </section>
+
+  <!-- Update Profile Section -->
+  <section id="update" class="tab-content">
+    <form class="update-form">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" value="johndoe">
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" value="john@example.com">
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" value="+1 (555) 123-4567">
+      </div>
+      <div class="form-group">
+        <label for="bio">Bio</label>
+        <textarea id="bio">Book enthusiast | Sci-fi lover | Coffee addict</textarea>
+      </div>
+      <button type="submit" class="save-btn">Save Changes</button>
+    </form>
+  </section>
 </div>
 {% endblock %}
 
 {% block script %}
 <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
 {% endblock %}

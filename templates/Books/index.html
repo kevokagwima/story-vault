@@ -87,10 +87,23 @@
           <div class="follow-user-header">
             <img id="post-img" src="{{ url_for('static', filename='Images/profile.png') }}" alt="">
             <div class="post-user">
-              <h4>{{ reader.username }}</h4>
+              <a href="{{ url_for('auth.profile', username=reader.username) }}">
+                <h4>{{ reader.username }}</h4>
+              </a>
             </div>
           </div>
-          <a href="#">Follow</a>
+          {% set following_list = [] %}
+          {% for follower in followers if follower.followed_id == reader.id %}
+          {{ following_list.append(reader.id) or "" }}
+          {% endfor %}
+          <a href="{{ url_for('follows.follow', username=reader.username) }}">
+            {% if reader.id in following_list %}
+            <i class="fas fa-check"></i>
+            Following
+            {% else %}
+            Follow
+            {% endif %}
+          </a>
         </div>
         {% endfor %}
         {% else %}

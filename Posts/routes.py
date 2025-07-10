@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, flash, redirect, url_for
+from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_required
-from models import db, Post, Likes, Comment
+from models import db, Post, Likes, Comment, Users, Follow
 from .form import PostForm, CommentForm
 
 posts = Blueprint("posts", __name__)

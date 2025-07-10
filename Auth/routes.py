@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_user, logout_user, login_required
 from flask_bcrypt import Bcrypt
 from .form import RegistrationForm, LoginForm, ResetPasswordForm, ProfileForm
-from models import db, Users, Role, ProfilePicture
+from models import db, Users, Role, ProfilePicture, Follow
 import random, boto3, os, asyncio, aiohttp
 
 auth = Blueprint("auth", __name__, url_prefix="/auth")
@@ -35,16 +35,16 @@ def signup():
       )
       db.session.add(new_user)
       db.session.commit()
-      flash("Registration successfull", category="success")
+      flash("Registration successfull", "success")
       return redirect(url_for('auth.signin'))
     
     except Exception as e:
-      flash(f"{str(e)}", category="danger")
+      flash(f"{str(e)}", "danger")
       return redirect(url_for('auth.signup'))
 
     if form.errors != {}:
       for err_msg in form.errors.values():
-        flash(f"{err_msg}", category="danger")
+        flash(f"{err_msg}", "danger")
         return redirect(url_for('auth.signup'))
 
   return render_template("Auth/signup.html", form=form)
@@ -72,7 +72,7 @@ def signin():
 
   if form.errors != {}:
     for err_msg in form.errors.values():
-      flash(f"{err_msg}", category="danger")
+      flash(f"{err_msg}", "danger")
 
   return render_template("Auth/signin.html", form=form)
 
@@ -83,44 +83,51 @@ def reset_password():
     user = Users.query.filter_by(email=form.email_address.data).first()
     if user:
       if user.check_password_correction(attempted_password=form.password.data):
-        flash("New password cannot be same as old", category="danger")
+        flash("New password cannot be same as old", "danger")
       else:
         user.password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
         db.session.commit()
-        flash("Your password has been reset successfully", category="success")
+        flash("Your password has been reset successfully", "success")
         return redirect(url_for("users.signin"))
     else:
-      flash("No user with that email", category="danger")
+      flash("No user with that email", "danger")
       return redirect(url_for('auth.reset_password'))
 
   if form.errors != {}:
     for err_msg in form.errors.values():
-      flash(f"{err_msg}", category="danger")
+      flash(f"{err_msg}", "danger")
       return redirect(url_for('auth.reset_password'))
 
   return render_template("reset-password.html", form=form)
 
-@auth.route("/profile/<int:user_id>", methods=["POST", "GET"])
-async def profile(user_id):
+@auth.route("/profile/<string:username>", methods=["POST", "GET"])
+def profile(username):
   form = ProfileForm()
-  user = Users.query.filter_by(unique_id=user_id).first()
+  user = Users.query.filter_by(username=username).first()
   if not user:
-    flash("User not found", category="danger")
+    flash("User not found", "danger")
     return redirect(url_for('auth.signin'))
   if form.validate_on_submit():
     user.id_number = form.id_number.data
     file = request.files["profile_pic"]
     if file:
-      asyncio.create_task(upload_file(user.id, file))
+      upload_file(user.id, file)
     return redirect(url_for('users.home'))
 
   if form.errors != {}:
     for err_msg in form.errors.values():
-      flash(f"{err_msg}", category="danger")
+      flash(f"{err_msg}", "danger")
 
-  return render_template("profile.html", form=form, user=user)
+  context = {
+    "form": form,
+    "user": user,
+    "followers": Follow.query.filter_by(followed_id=user.id).all(),
+    "following": Follow.query.filter_by(follower_id=user.id).all()
+  }
 
-async def upload_file(user_id, file):
+  return render_template("Auth/profile.html", **context)
+
+def upload_file(user_id, file):
   if file:
     user = Users.query.get(user_id)
     existing_profile_pic = ProfilePicture.query.filter_by(id=user.profile).first()
@@ -136,18 +143,13 @@ async def upload_file(user_id, file):
     user.profile = ProfilePicture.query.filter_by(name=file.filename).first().id
     db.session.commit()
     try:
-      async with aiohttp.ClientSession() as session:
-        async with session.put(f"s3://{bucket_name}/{file.filename}", data=file.read()) as response:
-          if response.status == 200:
-            flash("Profile Updated successfully", category="success")
-          else:
-            flash("Profile failed to upload", category="danger")
+      flash("Profile Updated successfully", "success")
     except Exception as e:
-      flash(f"{repr(e)}", category="danger")
+      flash(f"{repr(e)}", "danger")
 
 @auth.route("/logout")
 @login_required
 def logout():
   logout_user()
-  flash("Logout successfull", category="success")
+  flash("Logout successfull", "success")
   return redirect(url_for('auth.signin'))

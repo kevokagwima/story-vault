@@ -73,6 +73,10 @@
   font-weight: bold;
 }
 
+#username:hover {
+  text-decoration: underline;
+}
+
 form {
   display: grid;
   position: sticky;

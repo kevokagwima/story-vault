@@ -41,6 +41,14 @@
   gap: 0;
 }
 
+.post-user a {
+  color: var(--text-dark);
+}
+
+.post-user a:hover {
+  text-decoration: underline;
+}
+
 .post-actions-box {
   display: flex;
   align-items: center;
@@ -101,4 +109,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.fa-check {
+  font-size: 0.8rem;
 }

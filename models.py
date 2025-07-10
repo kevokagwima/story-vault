@@ -32,7 +32,7 @@ class Users(BaseModel, db.Model, UserMixin):
   password = db.Column(db.String(100))
   role = db.Column(db.Integer(), db.ForeignKey('role.id'))
   profile = db.Column(db.Integer(), db.ForeignKey('Profile.id'))
-  post = db.relationship("Post", backref="user_post", lazy=True)
+  posts = db.relationship("Post", backref="user_post", lazy=True)
   comment = db.relationship("Comment", backref="user_comment", lazy=True)
   user_book = db.relationship("UserBook", backref="user_book", lazy=True)
 
